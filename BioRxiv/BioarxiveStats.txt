@@ -1,0 +1,17 @@
+websites={"http://biorxiv.org/content/early/2016/11/14/087171.article-metrics","http://biorxiv.org/content/early/2016/05/24/055020.article-metrics","http://biorxiv.org/content/early/2016/10/25/083089.article-metrics","http://biorxiv.org/content/early/2016/02/17/039909.article-metrics","http://biorxiv.org/content/early/2016/06/07/057570.article-metrics","http://biorxiv.org/content/early/2017/01/09/099127.article-metrics"};
+
+totalAbstract=0;
+totalPDF=0;
+
+For[i=1,i<=Length[websites],i++,test=Flatten[Import[websites[[i]],"FullData"]];
+start=Position[test,"PDF"][[1,1]];
+end=Quiet[Position[test,x_/;Not[StringFreeQ[x,"Posted"]]]][[1,1]];
+abstractCount=Total[ToExpression/@test[[start+1;;end-1]][[2;;All;;3]]];
+PDFCount=Total[ToExpression/@test[[start+1;;end-1]][[3;;All;;3]]];
+totalAbstract=totalAbstract+abstractCount;
+totalPDF=totalPDF+PDFCount;]
+
+font=15;
+out=BarChart[{Labeled[totalAbstract,Style["Abstract reads",Black,FontSize->font],Below],Labeled[totalPDF,Style["PDF downloads",Black,FontSize->font]]},ChartStyle->96,ChartLabels->Placed[Style[ToString[NumberForm[#,DigitBlock->3]],Gray,FontSize->font-2]&/@{totalAbstract,totalPDF},Above],PlotLabel->Style["BioRxiv statistics\n ("<>ToString[Length[websites]]<>" uploaded papers)",Black,FontSize->font+2],ImageSize->700]
+
+Export["~/BioRxivStats.gif",out,ImageSize->{300,300},ImageResolution->800]
