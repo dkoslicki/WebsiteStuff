@@ -1,0 +1,562 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     21494,        554]
+NotebookOptionsPosition[     20288,        506]
+NotebookOutlinePosition[     20628,        521]
+CellTagsIndexPosition[     20585,        518]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["BioRxive statistics", "Subsection",
+ CellChangeTimes->{{3.705377969037431*^9, 3.7053779777173862`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Papers I\[CloseCurlyQuote]ve uploaded", "Subsubsection",
+ CellChangeTimes->{{3.705377980999907*^9, 3.705377987028068*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"websites", "=", 
+   RowBox[{"{", 
+    RowBox[{
+    "\"\<http://biorxiv.org/content/early/2016/11/14/087171.article-metrics\>\
+\"", ",", 
+     "\"\<http://biorxiv.org/content/early/2016/05/24/055020.article-metrics\>\
+\"", ",", 
+     "\"\<http://biorxiv.org/content/early/2016/10/25/083089.article-metrics\>\
+\"", ",", 
+     "\"\<http://biorxiv.org/content/early/2016/02/17/039909.article-metrics\>\
+\"", ",", 
+     "\"\<http://biorxiv.org/content/early/2016/06/07/057570.article-metrics\>\
+\"", ",", 
+     "\"\<http://biorxiv.org/content/early/2017/01/09/099127.article-metrics\>\
+\""}], "}"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.705376752265731*^9, 3.7053767639726048`*^9}, {
+  3.705376811620146*^9, 3.705376864956019*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Extract metrics", "Subsubsection",
+ CellChangeTimes->{{3.7053779921021423`*^9, 3.705377997650776*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"totalAbstract", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"totalPDF", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"For", "[", 
+  RowBox[{
+   RowBox[{"i", "=", "1"}], ",", 
+   RowBox[{"i", "\[LessEqual]", 
+    RowBox[{"Length", "[", "websites", "]"}]}], ",", 
+   RowBox[{"i", "++"}], ",", 
+   RowBox[{
+    RowBox[{"test", "=", 
+     RowBox[{"Flatten", "[", 
+      RowBox[{"Import", "[", 
+       RowBox[{
+        RowBox[{"websites", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], ",", "\"\<FullData\>\""}], "]"}], 
+      "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"start", "=", 
+     RowBox[{
+      RowBox[{"Position", "[", 
+       RowBox[{"test", ",", "\"\<PDF\>\""}], "]"}], "[", 
+      RowBox[{"[", 
+       RowBox[{"1", ",", "1"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"end", "=", 
+     RowBox[{
+      RowBox[{"Quiet", "[", 
+       RowBox[{"Position", "[", 
+        RowBox[{"test", ",", 
+         RowBox[{"x_", "/;", 
+          RowBox[{"Not", "[", 
+           RowBox[{"StringFreeQ", "[", 
+            RowBox[{"x", ",", "\"\<Posted\>\""}], "]"}], "]"}]}]}], "]"}], 
+       "]"}], "[", 
+      RowBox[{"[", 
+       RowBox[{"1", ",", "1"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"abstractCount", "=", 
+     RowBox[{"Total", "[", 
+      RowBox[{"ToExpression", "/@", 
+       RowBox[{
+        RowBox[{"test", "[", 
+         RowBox[{"[", 
+          RowBox[{
+           RowBox[{"start", "+", "1"}], ";;", 
+           RowBox[{"end", "-", "1"}]}], "]"}], "]"}], "[", 
+        RowBox[{"[", 
+         RowBox[{"2", ";;", "All", ";;", "3"}], "]"}], "]"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"PDFCount", "=", 
+     RowBox[{"Total", "[", 
+      RowBox[{"ToExpression", "/@", 
+       RowBox[{
+        RowBox[{"test", "[", 
+         RowBox[{"[", 
+          RowBox[{
+           RowBox[{"start", "+", "1"}], ";;", 
+           RowBox[{"end", "-", "1"}]}], "]"}], "]"}], "[", 
+        RowBox[{"[", 
+         RowBox[{"3", ";;", "All", ";;", "3"}], "]"}], "]"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"totalAbstract", "=", 
+     RowBox[{"totalAbstract", "+", "abstractCount"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"totalPDF", "=", 
+     RowBox[{"totalPDF", "+", "PDFCount"}]}], ";"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7053768678944187`*^9, 3.70537698614153*^9}, {
+  3.705378002558998*^9, 3.705378004672323*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Plot the results", "Subsubsection",
+ CellChangeTimes->{{3.705378009622649*^9, 3.7053780119716*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"font", "=", "15"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"out", "=", 
+  RowBox[{"BarChart", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Labeled", "[", 
+       RowBox[{"totalAbstract", ",", 
+        RowBox[{"Style", "[", 
+         RowBox[{"\"\<Abstract reads\>\"", ",", "Black", ",", 
+          RowBox[{"FontSize", "\[Rule]", "font"}]}], "]"}], ",", "Below"}], 
+       "]"}], ",", 
+      RowBox[{"Labeled", "[", 
+       RowBox[{"totalPDF", ",", 
+        RowBox[{"Style", "[", 
+         RowBox[{"\"\<PDF downloads\>\"", ",", "Black", ",", 
+          RowBox[{"FontSize", "\[Rule]", "font"}]}], "]"}]}], "]"}]}], "}"}], 
+    ",", 
+    RowBox[{"ChartStyle", "\[Rule]", "96"}], ",", 
+    RowBox[{"ChartLabels", "\[Rule]", 
+     RowBox[{"Placed", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"Style", "[", 
+          RowBox[{
+           RowBox[{"ToString", "[", 
+            RowBox[{"NumberForm", "[", 
+             RowBox[{"#", ",", 
+              RowBox[{"DigitBlock", "\[Rule]", "3"}]}], "]"}], "]"}], ",", 
+           "Gray", ",", 
+           RowBox[{"FontSize", "\[Rule]", 
+            RowBox[{"font", "-", "2"}]}]}], "]"}], "&"}], "/@", 
+        RowBox[{"{", 
+         RowBox[{"totalAbstract", ",", "totalPDF"}], "}"}]}], ",", "Above"}], 
+      "]"}]}], ",", 
+    RowBox[{"PlotLabel", "\[Rule]", 
+     RowBox[{"Style", "[", 
+      RowBox[{
+       RowBox[{"\"\<BioRxiv statistics\\n (\>\"", "<>", 
+        RowBox[{"ToString", "[", 
+         RowBox[{"Length", "[", "websites", "]"}], "]"}], "<>", 
+        "\"\< uploaded papers)\>\""}], ",", "Black", ",", 
+       RowBox[{"FontSize", "\[Rule]", 
+        RowBox[{"font", "+", "2"}]}]}], "]"}]}], ",", 
+    RowBox[{"ImageSize", "\[Rule]", "700"}]}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.705377769727791*^9, 3.705377934595866*^9}, {
+  3.705378153202333*^9, 3.705378201466835*^9}, {3.7053783114796047`*^9, 
+  3.705378321193493*^9}, {3.705378449259177*^9, 3.705378459478079*^9}, {
+  3.705378814992107*^9, 3.705378876991461*^9}, {3.705379085869217*^9, 
+  3.705379086010335*^9}}],
+
+Cell[BoxData[
+ GraphicsBox[{{
+    {Opacity[0], PointBox[{0.5064116575591986, 0.}]}, {{}, 
+     {RGBColor[0.982864, 0.7431472, 0.3262672], EdgeForm[{Opacity[
+      0.6859999999999999], Thickness[Small]}], 
+      {RGBColor[0.23792049598428056`, 0.6887478786077664, 1.], EdgeForm[{
+       Opacity[0.6859999999999999], Thickness[Small]}], 
+       TagBox[
+        TooltipBox[
+         TagBox[
+          DynamicBox[{
+            FEPrivate`If[
+             CurrentValue["MouseOver"], 
+             EdgeForm[{
+               GrayLevel[0.5], 
+               AbsoluteThickness[1.5], 
+               Opacity[0.66]}], {}, {}], 
+            
+            RectangleBox[{0.5446265938069217, 0.}, {1.4553734061930783`, 
+             19432.}, "RoundingRadius" -> 0]},
+           
+           ImageSizeCache->{{49.2161629357625, 
+            346.81251507500315`}, {-172.25000000000003`, 
+            216.51408725893899`}}],
+          StatusArea[#, 19432]& ,
+          TagBoxNote->"19432"],
+         StyleBox["19432", {}, StripOnInput -> False]],
+        Annotation[#, 
+         Style[19432, {}], "Tooltip"]& ]}, 
+      {RGBColor[1., 0.519591857134656, 0.3096724501821112], EdgeForm[{Opacity[
+       0.6859999999999999], Thickness[Small]}], 
+       TagBox[
+        TooltipBox[
+         TagBox[
+          DynamicBox[{
+            FEPrivate`If[
+             CurrentValue["MouseOver"], 
+             EdgeForm[{
+               GrayLevel[0.5], 
+               AbsoluteThickness[1.5], 
+               Opacity[0.66]}], {}, {}], 
+            
+            RectangleBox[{1.5446265938069217`, 0.}, {2.455373406193078, 
+             5968.}, "RoundingRadius" -> 0]},
+           
+           ImageSizeCache->{{375.42795758464877`, 673.0243097238894}, {
+            96.76953843425044, 216.51408725893899`}}],
+          StatusArea[#, 5968]& ,
+          TagBoxNote->"5968"],
+         StyleBox["5968", {}, StripOnInput -> False]],
+        Annotation[#, 
+         Style[5968, {}], "Tooltip"]& ]}}, {}, {}}, {}, {InsetBox[
+      StyleBox["\<\"Abstract reads\"\>",
+       StripOnInput->False,
+       LineColor->GrayLevel[0],
+       FrontFaceColor->GrayLevel[0],
+       BackFaceColor->GrayLevel[0],
+       GraphicsColor->GrayLevel[0],
+       FontSize->15,
+       FontColor->GrayLevel[0]], Offset[{0, -4}, {1., 0.}], 
+      ImageScaled[{0.5, 1}]], InsetBox[
+      StyleBox["\<\"19,432\"\>",
+       StripOnInput->False,
+       LineColor->GrayLevel[0.5],
+       FrontFaceColor->GrayLevel[0.5],
+       BackFaceColor->GrayLevel[0.5],
+       GraphicsColor->GrayLevel[0.5],
+       FontSize->13,
+       FontColor->GrayLevel[0.5]], Offset[{0, 4}, {1., 19432.}], 
+      ImageScaled[{0.5, 0}]], InsetBox[
+      StyleBox["\<\"5,968\"\>",
+       StripOnInput->False,
+       LineColor->GrayLevel[0.5],
+       FrontFaceColor->GrayLevel[0.5],
+       BackFaceColor->GrayLevel[0.5],
+       GraphicsColor->GrayLevel[0.5],
+       FontSize->13,
+       FontColor->GrayLevel[0.5]], Offset[{0, 4}, {2., 5968.}], 
+      ImageScaled[{0.5, 0}]]}, 
+    StyleBox[
+     StyleBox[{
+       {Thickness[Tiny], 
+        LineBox[{{0.5064116575591986, 0.}, {2.4943526411657557`, 0.}}], 
+        StyleBox[{}, "GraphicsLabel",
+         StripOnInput->False]}, 
+       StyleBox[{
+         {Thickness[Tiny], 
+          LineBox[{{0.5446265938069217, 0.}, 
+            Offset[{-1.102182119232618*^-15, -6.}, {0.5446265938069217, 
+             0.}]}], LineBox[{{2.455373406193078, 0.}, 
+            Offset[{-1.102182119232618*^-15, -6.}, {2.455373406193078, 
+             0.}]}], {{}, {}, {
+            LineBox[{{1.4553734061930783`, 0.}, 
+              Offset[{-7.347880794884119*^-16, -4.}, {1.4553734061930783`, 
+               0.}]}], 
+            LineBox[{{1.5446265938069217`, 0.}, 
+              Offset[{-7.347880794884119*^-16, -4.}, {1.5446265938069217`, 
+               0.}]}]}, {}}}, 
+         StyleBox[
+          {Thickness[Tiny], InsetBox[
+            StyleBox["\<\"PDF downloads\"\>",
+             StripOnInput->False,
+             LineColor->GrayLevel[0],
+             FrontFaceColor->GrayLevel[0],
+             BackFaceColor->GrayLevel[0],
+             GraphicsColor->GrayLevel[0],
+             FontSize->15,
+             FontColor->GrayLevel[0]], 
+            Offset[{0., -2.}, {1.9999999999999998, 0.}], 
+            ImageScaled[{Rational[1, 2], 1}], Automatic, {1, 0}]}, 
+          "GraphicsLabel",
+          StripOnInput->False]}, "GraphicsTicks",
+        StripOnInput->False]},
+      Antialiasing->False], "GraphicsAxes",
+     StripOnInput->False]}, {}},
+  AspectRatio->NCache[GoldenRatio^(-1), 0.6180339887498948],
+  Axes->{False, True},
+  AxesLabel->{None, None},
+  AxesOrigin->{0.5064116575591986, 0.},
+  CoordinatesToolOptions:>{"DisplayFunction" -> ({
+      Identity[
+       Part[#, 1]], 
+      Identity[
+       Part[#, 2]]}& ), "CopiedValueFunction" -> ({
+      Identity[
+       Part[#, 1]], 
+      Identity[
+       Part[#, 2]]}& )},
+  DisplayFunction->Identity,
+  FrameLabel->{{None, None}, {None, None}},
+  FrameTicks->{{Automatic, Automatic}, {{{1., 
+       FormBox[
+        InterpretationBox[
+         StyleBox[
+          GraphicsBox[{}, ImageSize -> {0, 0}, BaselinePosition -> Baseline], 
+          "CacheGraphics" -> False], 
+         Spacer[0]], TraditionalForm], {0.004, 0}}, {2., 
+       FormBox[
+        InterpretationBox[
+         StyleBox[
+          GraphicsBox[{}, ImageSize -> {0, 0}, BaselinePosition -> Baseline], 
+          "CacheGraphics" -> False], 
+         Spacer[0]], TraditionalForm], {0.004, 0}}}, {{1., 
+       FormBox[
+        InterpretationBox[
+         StyleBox[
+          GraphicsBox[{}, ImageSize -> {0, 0}, BaselinePosition -> Baseline], 
+          "CacheGraphics" -> False], 
+         Spacer[0]], TraditionalForm], {0.004, 0}}, {2., 
+       FormBox[
+        InterpretationBox[
+         StyleBox[
+          GraphicsBox[{}, ImageSize -> {0, 0}, BaselinePosition -> Baseline], 
+          "CacheGraphics" -> False], 
+         Spacer[0]], TraditionalForm], {0.004, 0}}}}},
+  GridLines->{None, None},
+  GridLinesStyle->Directive[
+    GrayLevel[0.5, 0.4]],
+  ImageSize->700,
+  PlotLabel->FormBox[
+    StyleBox["\"BioRxiv statistics\\n (6 uploaded papers)\"", 
+     GrayLevel[0], FontSize -> 17, StripOnInput -> False], TraditionalForm],
+  PlotRange->{{All, All}, {All, All}},
+  PlotRangePadding->{{
+     Scaled[0.02], 
+     Scaled[0.02]}, {
+     Scaled[0.02], 
+     Scaled[0.05]}},
+  Ticks->{None, Automatic}]], "Output",
+ CellChangeTimes->{{3.705377861186095*^9, 3.7053779362032146`*^9}, 
+   3.705378168363966*^9, 3.70537820181172*^9, 3.70537832249676*^9, 
+   3.705378461261986*^9, {3.705378839929989*^9, 3.705378877515579*^9}, 
+   3.705379086435092*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Save the results", "Subsubsection",
+ CellChangeTimes->{{3.705378025687002*^9, 3.7053780274502068`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Export", "[", 
+  RowBox[{
+  "\"\</home/dkoslicki/Dropbox/AllPapers/BioRxivStats.png\>\"", ",", "out", 
+   ",", 
+   RowBox[{"ImageResolution", "\[Rule]", "400"}], ",", 
+   RowBox[{"ImageSize", "\[Rule]", "450"}], ",", 
+   RowBox[{"Antialiasing", "\[Rule]", "True"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.705378028987341*^9, 3.705378141378734*^9}, {
+  3.7053782196482964`*^9, 3.705378228210722*^9}, {3.705378423707052*^9, 
+  3.705378438243634*^9}, {3.70537857651866*^9, 3.705378598963859*^9}}],
+
+Cell[BoxData["\<\"/home/dkoslicki/Dropbox/AllPapers/BioRxivStats.png\"\>"], \
+"Output",
+ CellChangeTimes->{{3.7053781168182983`*^9, 3.7053781733051243`*^9}, {
+   3.705378205554873*^9, 3.705378229639097*^9}, 3.705378328727227*^9, {
+   3.705378425630052*^9, 3.705378463265637*^9}, {3.70537858355726*^9, 
+   3.705378601789846*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Export", "[", 
+  RowBox[{
+  "\"\</home/dkoslicki/Dropbox/AllPapers/BioRxivStats.gif\>\"", ",", "out", 
+   ",", 
+   RowBox[{"ImageSize", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"300", ",", "300"}], "}"}]}], ",", 
+   RowBox[{"ImageResolution", "\[Rule]", "800"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.705378669415698*^9, 3.705378685076255*^9}, {
+  3.705378743147601*^9, 3.7053787572034483`*^9}, {3.705378799742408*^9, 
+  3.705378801448594*^9}, {3.7053789313330307`*^9, 3.7053789370124702`*^9}}],
+
+Cell[BoxData["\<\"/home/dkoslicki/Dropbox/AllPapers/BioRxivStats.gif\"\>"], \
+"Output",
+ CellChangeTimes->{{3.705378673654389*^9, 3.705378685857682*^9}, {
+   3.70537874647575*^9, 3.705378759057232*^9}, 3.7053788020518208`*^9, {
+   3.7053788441600733`*^9, 3.705378881864525*^9}, 3.705378937897387*^9, 
+   3.705379089720169*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+To get the source code as text, first copy as text, paste in drupal, turn off \
+rich text, copy, paste in mathematica, say yes to prompt, replace special \
+characters and delete the backslashes, evaluate, copy, paste in drupal, save.\
+\
+\>", "Subsubsection",
+ CellChangeTimes->{{3.705380932004109*^9, 3.705380992741219*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"StringReplace", "[", 
+  RowBox[{
+  "\"\<<p><em>websites={\\\"http://biorxiv.org/content/early/2016/11/14/\
+087171.article-metrics\\\",\\\"http://biorxiv.org/content/early/2016/05/24/\
+055020.article-metrics\\\",\\\"http://biorxiv.org/content/early/2016/10/25/\
+083089.article-metrics\\\",\\\"http://biorxiv.org/content/early/2016/02/17/\
+039909.article-metrics\\\",\\\"http://biorxiv.org/content/early/2016/06/07/\
+057570.article-metrics\\\",\\\"http://biorxiv.org/content/early/2017/01/09/\
+099127.article-metrics\\\"};</em></p>\n<p><em>totalAbstract=0;<br>\n\
+\\ttotalPDF=0;</em></p>\n\
+<p><em>For&amp;#91;i=1,i&lt;=Length&amp;#91;websites&amp;#93;,i++,test=\
+Flatten&amp;#91;Import&amp;#91;websites&amp;#91;&amp;#91;i&amp;#93;&amp;#93;,\
+\\\"FullData\\\"&amp;#93;&amp;#93;;</em></p>\n\
+<p><em>start=Position&amp;#91;test,\\\"PDF\\\"&amp;#93;&amp;#91;&amp;#91;1,1&\
+amp;#93;&amp;#93;;<br>\n\
+\\tend=Quiet&amp;#91;Position&amp;#91;test,x_/;Not&amp;#91;StringFreeQ&amp;#\
+91;x,\\\"Posted\\\"&amp;#93;&amp;#93;&amp;#93;&amp;#93;&amp;#91;&amp;#91;1,1&\
+amp;#93;&amp;#93;;<br>\n\
+\\tabstractCount=Total&amp;#91;ToExpression/@test&amp;#91;&amp;#91;start+1;;\
+end-1&amp;#93;&amp;#93;&amp;#91;&amp;#91;2;;All;;3&amp;#93;&amp;#93;&amp;#93;;\
+<br>\n\\tPDFCount=Total&amp;#91;ToExpression/@test&amp;#91;&amp;#91;start+1;;\
+end-1&amp;#93;&amp;#93;&amp;#91;&amp;#91;3;;All;;3&amp;#93;&amp;#93;&amp;#93;;\
+<br>\n\\ttotalAbstract=totalAbstract+abstractCount;<br>\n\
+\\ttotalPDF=totalPDF+PDFCount;&amp;#93;</em></p>\n<p><em>font=15;<br>\n\
+\\tout=BarChart&amp;#91;{Labeled&amp;#91;totalAbstract,Style&amp;#91;\\\"\
+Abstract reads\\\",Black,FontSize-&gt;font&amp;#93;,Below&amp;#93;,Labeled&\
+amp;#91;totalPDF,Style&amp;#91;\\\"PDF \
+downloads\\\",Black,FontSize-&gt;font&amp;#93;&amp;#93;},ChartStyle-&gt;96,\
+ChartLabels-&gt;Placed&amp;#91;Style&amp;#91;ToString&amp;#91;NumberForm&amp;#\
+91;#,DigitBlock-&gt;3&amp;#93;&amp;#93;,Gray,FontSize-&gt;font-2&amp;#93;&amp;\
+/@{totalAbstract,totalPDF},Above&amp;#93;,PlotLabel-&gt;Style&amp;#91;\\\"\
+BioRxiv statisticsn \
+(\\\"&lt;&gt;ToString&amp;#91;Length&amp;#91;websites&amp;#93;&amp;#93;&lt;&\
+gt;\\\" uploaded \
+papers)\\\",Black,FontSize-&gt;font+2&amp;#93;,ImageSize-&gt;700&amp;#93;</em>\
+</p>\n<p><br>\n\
+\\t<em>Export&amp;#91;\\\"~/BioRxivStats.gif\\\",out,ImageSize-&gt;{300,300},\
+ImageResolution-&gt;800&amp;#93;</em></p>\n\>\"", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\"\<&amp;\>\"", "\[Rule]", "\"\<&\>\""}], ",", 
+     RowBox[{"\"\<\\\\\>\"", "\[Rule]", "\"\<\>\""}]}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.705380615831778*^9, 3.705380684027092*^9}, {
+  3.705380784464734*^9, 3.705380786991097*^9}}],
+
+Cell[BoxData["\<\"<p><em>websites={\\\"http://biorxiv.org/content/early/2016/\
+11/14/087171.article-metrics\\\",\\\"http://biorxiv.org/content/early/2016/05/\
+24/055020.article-metrics\\\",\\\"http://biorxiv.org/content/early/2016/10/25/\
+083089.article-metrics\\\",\\\"http://biorxiv.org/content/early/2016/02/17/\
+039909.article-metrics\\\",\\\"http://biorxiv.org/content/early/2016/06/07/\
+057570.article-metrics\\\",\\\"http://biorxiv.org/content/early/2017/01/09/\
+099127.article-metrics\\\"};</em></p>\\n<p><em>totalAbstract=0;<br>\\n\\\
+ttotalPDF=0;</em></p>\\n<p><em>For&#91;i=1,i&lt;=Length&#91;websites&#93;,i++,\
+test=Flatten&#91;Import&#91;websites&#91;&#91;i&#93;&#93;,\\\"FullData\\\"&#\
+93;&#93;;</em></p>\\n<p><em>start=Position&#91;test,\\\"PDF\\\"&#93;&#91;&#91;\
+1,1&#93;&#93;;<br>\\n\\tend=Quiet&#91;Position&#91;test,x_/;Not&#91;\
+StringFreeQ&#91;x,\\\"Posted\\\"&#93;&#93;&#93;&#93;&#91;&#91;1,1&#93;&#93;;<\
+br>\\n\\tabstractCount=Total&#91;ToExpression/@test&#91;&#91;start+1;;end-1&#\
+93;&#93;&#91;&#91;2;;All;;3&#93;&#93;&#93;;<br>\\n\\tPDFCount=Total&#91;\
+ToExpression/@test&#91;&#91;start+1;;end-1&#93;&#93;&#91;&#91;3;;All;;3&#93;&#\
+93;&#93;;<br>\\n\\ttotalAbstract=totalAbstract+abstractCount;<br>\\n\\\
+ttotalPDF=totalPDF+PDFCount;&#93;</em></p>\\n<p><em>font=15;<br>\\n\\tout=\
+BarChart&#91;{Labeled&#91;totalAbstract,Style&#91;\\\"Abstract \
+reads\\\",Black,FontSize-&gt;font&#93;,Below&#93;,Labeled&#91;totalPDF,Style&#\
+91;\\\"PDF \
+downloads\\\",Black,FontSize-&gt;font&#93;&#93;},ChartStyle-&gt;96,\
+ChartLabels-&gt;Placed&#91;Style&#91;ToString&#91;NumberForm&#91;#,DigitBlock-\
+&gt;3&#93;&#93;,Gray,FontSize-&gt;font-2&#93;&/@{totalAbstract,totalPDF},\
+Above&#93;,PlotLabel-&gt;Style&#91;\\\"BioRxiv statisticsn \
+(\\\"&lt;&gt;ToString&#91;Length&#91;websites&#93;&#93;&lt;&gt;\\\" uploaded \
+papers)\\\",Black,FontSize-&gt;font+2&#93;,ImageSize-&gt;700&#93;</em></p>\\n<\
+p><br>\\n\\t<em>Export&#91;\\\"~/BioRxivStats.gif\\\",out,ImageSize-&gt;{300,\
+300},ImageResolution-&gt;800&#93;</em></p>\\n\"\>"], "Output",
+ CellChangeTimes->{3.7053807908698072`*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1107, 893},
+WindowMargins->{{88, Automatic}, {75, Automatic}},
+FrontEndVersion->"11.0 for Linux x86 (64-bit) (September 21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 109, 1, 44, "Subsection"],
+Cell[CellGroupData[{
+Cell[714, 27, 128, 1, 35, "Subsubsection"],
+Cell[845, 30, 765, 18, 149, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1647, 53, 108, 1, 35, "Subsubsection"],
+Cell[1758, 56, 2461, 67, 218, "Input"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4256, 128, 105, 1, 35, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[4386, 133, 2110, 52, 172, "Input"],
+Cell[6499, 187, 6619, 172, 503, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13167, 365, 109, 1, 35, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[13301, 370, 519, 10, 56, "Input"],
+Cell[13823, 382, 328, 5, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14188, 392, 523, 11, 34, "Input"],
+Cell[14714, 405, 326, 5, 32, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15089, 416, 334, 6, 59, "Subsubsection"],
+Cell[CellGroupData[{
+Cell[15448, 426, 2698, 45, 698, "Input"],
+Cell[18149, 473, 2099, 28, 696, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
